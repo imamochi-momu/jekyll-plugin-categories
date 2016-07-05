@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2010 Dave Perrett, http://recursive-design.com/
 # Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-# 
+#
 # A generator that creates category pages for jekyll sites.
 #
 # To use it, simply drop this script into the _plugins directory of your Jekyll site. You should
@@ -244,13 +244,13 @@ module Jekyll
       tag_array = []
       site = context.registers[:site]
       site.categories.each do |tag, tag_pages|
-        tag_array << tag
+        tag_array << {:title => tag, :count => tag_pages.count}
       end
-      tag_array.sort!
+      tag_array.sort_by!{|item| -item[:count]}
 
       tagcloud = "<ul>"
       tag_array.each do |tag|
-        tagcloud << "<li><a href='#{site.baseurl}/categories/#{tag}/index.html'>#{tag}</a></li>"
+        tagcloud << "<li><a href='#{site.baseurl}/categories/#{tag[:title]}/index.html'>#{tag[:title]} (#{tag[:count]})</a></li>"
       end
       tagcloud << "</ul>"
       "#{tagcloud}"
