@@ -231,7 +231,6 @@ module Jekyll
       result += date.strftime('<span class="year">%Y</span> ')
       result
     end
-
   end
 
   class CategoryList < Liquid::Tag
@@ -266,7 +265,11 @@ module Jekyll
       self.process(name)
       self.read_yaml(File.join(base, '_layouts'), 'category_list.html')
       self.data['title'] = "カテゴリ一覧"
-      self.data['posts'] = site.documents
+      category_list = Array.new([])
+      site.categories.each do |category, category_pages|
+        category_list << {'title' => category, 'count' => category_pages.count}
+      end
+      self.data['category_list'] = category_list
     end
   end
 
