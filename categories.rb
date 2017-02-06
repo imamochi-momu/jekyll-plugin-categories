@@ -281,4 +281,15 @@ module Jekyll
   end
 end
 
+module Jekyll
+  class Post
+    def populate_categories
+      categories_from_data = Utils.pluralized_array_from_hash(data, 'category', 'categories')
+      self.categories = (
+        Array(categories) + categories_from_data
+      ).map {|c| c.to_s.capitalize}.flatten.uniq
+    end
+  end
+end
+
 Liquid::Template.register_tag('category_list', Jekyll::CategoryList)
